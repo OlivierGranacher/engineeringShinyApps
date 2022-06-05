@@ -3,24 +3,25 @@
 library(shiny)
 
 # Module ui part
-ui_mod <- function(id) {
+ui_mod <- function(id, input_name = "num:") {
+  ns <- NS(id)
   shiny::fluidRow(
     shiny::numericInput(
-      NS(id, "numeric"),
-      label = "Number Input",
+      ns("numeric"),
+      label = input_name,
       value = 1
     ),
     shiny::textOutput(
-      NS(id, "text")
+      ns("text")
     )
   )
 }
 
 # Module server part
-server_mod <- function(id) {
+server_mod <- function(id, ...) {
   shiny::moduleServer(
     id,
-    function(input, output, session) {
+    function(input, output, session, ...) {
       output$text <- shiny::renderText({
         req(input$numeric)
         2 * input$numeric
